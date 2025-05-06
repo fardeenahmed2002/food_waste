@@ -71,7 +71,7 @@ export const signup = async (req) => {
         }
         else {
             return NextResponse.json({
-                message: `invalied role of ${role}`,
+                message: `${role} role does not exist`,
                 success: false
             })
         }
