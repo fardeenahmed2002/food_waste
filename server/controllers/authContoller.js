@@ -90,7 +90,7 @@ export const register = async (req, res) => {
             text: `Welcome to our site! You have registered with ${email}.`
         };
         await transporter.sendMail(mailOptions);
-
+        
         return res.json({ success: true });
     } catch (error) {
         res.json({ success: false, message: error.message });

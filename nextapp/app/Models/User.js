@@ -37,6 +37,7 @@ const userSchema = new mongoose.Schema({
     isNgo: { type: Boolean, default: false },
     isDonor: { type: Boolean, default: false },
     isBanned: { type: Boolean, default: false },
+    banCount: { type: Number, default: 0 },
     role: { type: String, default: "" },
     collectorType: { type: String, default: "" },
     noOfTeamMember: { type: String, default: "" },
