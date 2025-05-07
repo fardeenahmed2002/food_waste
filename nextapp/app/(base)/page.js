@@ -1,10 +1,23 @@
-import Image from "next/image";
+import Hero from './pages/home/Hero.jsx'
+import Problem from "./pages/home/Problem.jsx";
+import AboutUs from "./pages/home/AboutUs.jsx";
+import Steps from "./pages/home/Steps.jsx";
+import JoinUs from "./pages/home/JoinUs.jsx";
+import Tips from "./pages/home/Tips.jsx";
+import ContactUs from "./pages/home/ContactUs.jsx";
+import Footer from "./components/Footer.jsx";
 
-export default function Home() {
+export default function page() {
   return (
-    <div className="text-red-600">
-      hi
-
+    <div>
+      <Hero />
+      <Problem/>
+      <AboutUs/>
+      <Steps/>
+      <JoinUs/>
+      <Tips/>
+      <ContactUs/>
+      <Footer/>
     </div>
   );
 }

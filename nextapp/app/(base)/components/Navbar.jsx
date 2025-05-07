@@ -1,17 +1,18 @@
 import React from 'react'
 import Link from 'next/link'
 import Image from 'next/image'
+// import {} from ''
 const Navbar = () => {
     return (
         <div className="navbar bg-gradient-to-r from-blue-600 to-indigo-700 p-4 shadow-xl border-b border-blue-900 flex flex-row align-middle items-center justify-center gap-[200px]">
             {/* title name */}
             <div className='flex flex-row gap-[10px] align-middle items-center justify-center'>
-                <Link href={`#`}><Image src="/logo.jpeg" alt="logo" width={50} height={50} className='rounded-full' /></Link>
+                <Link href={`/`}><Image src="/logo.jpeg" alt="logo" width={50} height={50} className='rounded-full' /></Link>
                 <h1 className="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-green-300 via-blue-200 to-indigo-300 bg-clip-text text-transparent drop-shadow-md ">Food waste rescue</h1>
             </div>
             <div className='flex flex-row gap-[20px] align-middle justify-center'>
                 <Link href='#'>Home</Link>
-                <Link href='#'>Home</Link>
+                <Link href='/pages/about'>About</Link>
                 <Link href='#'>Home</Link>
                 <Link href='#'>Home</Link>
             </div>

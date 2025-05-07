@@ -1,9 +1,7 @@
-import React from 'react';
+"use client"
+import Header from "../../components/Header.jsx"
 import { motion } from 'framer-motion';
-import './css.css';
-import Header from '../../components/heading/Header';
-
-export default function Prblm() {
+const Problem = () => {
     const cards = [
         {
             title: 'Economic Cost',
@@ -69,3 +67,5 @@ export default function Prblm() {
         </div>
     )
 }
+
+export default Problem
