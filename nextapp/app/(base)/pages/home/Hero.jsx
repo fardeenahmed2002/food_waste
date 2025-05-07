@@ -1,5 +1,9 @@
 "use client"
-import {motion} from 'framer-motion'
+import { motion } from 'framer-motion'
+import { Parkinsans } from 'next/font/google'
+const parkinsans = Parkinsans({
+  subsets: ['latin'],
+});
 export default function Hero() {
   return (
     <div className="relative bg-cover bg-center h-[480px] w-full bg-[#334DDA]" >
@@ -76,13 +80,13 @@ export default function Hero() {
               className='font-robotoCondensed text-6xl text-white'>Rescue</motion.p>
           </h1>
           <br />
-          <p className="text-black text-justify w-[325px] font-parkinsans">
+          <p className={`text-black text-justify w-[325px] ${parkinsans.className}`}>
             Every year, tons of perfectly good food go to waste while millions go hungry. We're here to change that. Join us in reducing food waste.
           </p>
           <br />
           <button
-            
-            className="mt-6 bg-green-600 hover:bg-green-700 px-6 py-2 rounded-lg text-white font-semibold transition-all"
+
+            className={`mt-6 bg-green-600 hover:bg-green-700 px-6 py-2 rounded-lg text-white font-semibold transition-all`}
           >
             Join With Us
           </button>

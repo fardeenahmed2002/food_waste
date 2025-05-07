@@ -1,30 +1,30 @@
-import React from 'react';
-import Header from '../../components/heading/Header';
-
-export default function OurTeam() {
+"use client"
+import Header from "../../components/Header";
+const OurTeam = () => {
     const team = [
         {
             name: "John Doe",
             role: "Founder & CEO",
             description:
                 "John has been the driving force behind our mission to reduce food waste. With a background in social entrepreneurship, he founded our organization to tackle hunger and environmental issues together.",
-            image: "person.png",
+            image: "/person.png",
         },
         {
             name: "Jane Smith",
             role: "Operations Manager",
             description:
                 "Jane ensures that our operations run smoothly from food recovery to distribution. Her attention to detail and leadership skills keep everything organized and efficient.",
-            image: "person.png",
+            image: "/person.png",
         },
         {
             name: "Emily Brown",
             role: "Community Outreach Coordinator",
             description:
                 "Emily connects with local communities, volunteers, and partners to expand our outreach efforts. She is passionate about building relationships and growing our network of supporters.",
-            image: "person.png",
+            image: "/person.png",
         },
     ];
+
     return (
         <section className=" py-16 px-6 bg-gray-100 border-x-[20px] mt-[-25px] border-[#3B42D2] border-double">
             <div className="mx-auto text-center">
@@ -56,3 +56,5 @@ export default function OurTeam() {
         </section>
     );
 }
+
+export default OurTeam
