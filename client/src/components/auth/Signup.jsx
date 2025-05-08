@@ -1,4 +1,4 @@
-import React, { useContext, useState, useEffect } from "react";
+import React, { useContext, useState } from "react";
 import { motion } from "framer-motion";
 import { Link, useNavigate } from "react-router-dom";
 import axios from "axios";
@@ -23,54 +23,16 @@ export default function SignUpForm() {
     const [error, setError] = useState("");
     const navigate = useNavigate();
 
-    useEffect(() => {
-        const loadGoogleMaps = () => {
-            const script = document.createElement("script");
-            script.src = `https://maps.gomaps.pro/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&libraries=places`;
-            script.async = true;
-            script.onload = () => {
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(
-                        async (position) => {
-                            const { latitude, longitude } = position.coords;
-                            const userLocation = { lat: latitude, lng: longitude };
-                            const geocoder = new window.google.maps.Geocoder();
-                            geocoder.geocode({ location: userLocation }, (results, status) => {
-                                if (status === window.google.maps.GeocoderStatus.OK && results[0]) {
-                                    const address = results[0].formatted_address;
-                                    setFormData((prevData) => ({
-                                        ...prevData,
-                                        address: address,
-                                    }));
-                                }
-                            });
-                        },
-                        (error) => {
-                            toast.error("Geolocation failed: " + error.message);
-                        }
-                    );
-                } else {
-                    toast.error("Geolocation is not supported by this browser.");
-                }
-            };
-            document.head.appendChild(script);
-        };
-
-        loadGoogleMaps();
-    }, []);
-
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
     };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-
         if (!formData.name || !formData.email || !formData.password || !formData.address || !formData.phone) {
             setError("All fields are required!");
             return;
         }
-
         try {
             setError("");
             const form = new FormData();

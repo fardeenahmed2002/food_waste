@@ -84,18 +84,31 @@ export const signup = async (req) => {
             text: `Welcome to our site! You have registered with ${email}.`
         };
         await transporter.sendMail(mailOptions);
-        return NextResponse.json({
-            message: `signup successfull`,
-            user
-        })
+
+        const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: `7d` })
+
+        const response = NextResponse.json({
+            message: `Login successful`,
+            success: true,
+            user,
+            token
+        });
+
+        response.cookies.set("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+            maxAge: 7 * 24 * 60 * 60,
+            path: "/",
+        });
+
+        return response;
     }
     catch (error) {
         console.log(error.message)
     }
 
 }
-
-
 export const login = async (req) => {
     const { email, password } = await req.json()
     try {
@@ -127,14 +140,38 @@ export const login = async (req) => {
             })
         }
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: `7d` })
-        return NextResponse.json({
-            message: `login successfully`,
+
+        const response = NextResponse.json({
+            message: `Login successful`,
             success: true,
-            token,
-            user
-        })
+            user,
+            token
+        });
+
+        response.cookies.set("token", token, {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+            maxAge: 7 * 24 * 60 * 60,
+            path: "/",
+        });
+
+        return response;
     } catch (error) {
         console.log(error.message)
     }
 
+}
+export const isLoggedIn = async (req) => {
+    try {
+        return NextResponse.json({
+            success: true,
+            message: `account authticated`
+        })
+    } catch (error) {
+        NextResponse.json({
+            success: false,
+            message: error.message
+        })
+    }
 }

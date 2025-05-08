@@ -1,3 +1,4 @@
+"use client"
 import React, { useState } from 'react';
 import Chatbot from './Chatbot';
 import { MessageCircle } from 'lucide-react';
