@@ -1,24 +1,42 @@
-import React from 'react'
-import Link from 'next/link'
-import Image from 'next/image'
+'use client';
+import React from 'react';
+import Link from 'next/link';
+import Image from 'next/image';
+import { Home, Info, Phone, UserCircle, Search, Settings, LogOut, ScrollText } from 'lucide-react';
 
 const Navbar = () => {
     return (
-        <div className="navbar bg-gradient-to-r from-blue-600 to-indigo-700 p-4 shadow-xl border-b border-blue-900 flex flex-row align-middle items-center justify-center gap-[200px]">
-            {/* title name */}
-            <div className='flex flex-row gap-[10px] align-middle items-center justify-center'>
-                <Link href={`/`}><Image src="/logo.jpeg" alt="logo" width={50} height={50} className='rounded-full' /></Link>
-                <h1 className="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-green-300 via-blue-200 to-indigo-300 bg-clip-text text-transparent drop-shadow-md ">Food waste rescue</h1>
+        <div className="navbar bg-gradient-to-r from-blue-600 to-indigo-700 p-4 shadow-xl border-b border-blue-900 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-[100px]">
+            <div className='flex flex-row gap-3 items-center'>
+                <Link href={`/`}>
+                    <Image src="/logo.jpeg" alt="logo" width={50} height={50} className='rounded-full' />
+                </Link>
+                <h1 className="text-2xl sm:text-3xl font-extrabold bg-gradient-to-r from-green-300 via-blue-200 to-indigo-300 bg-clip-text text-transparent drop-shadow-md">
+                    Food Waste Rescue
+                </h1>
             </div>
-            <div className='flex flex-row gap-[20px] align-middle justify-center'>
-                <Link href='/'>Home</Link>
-                <Link href='/pages/about'>About</Link>
-                <Link href='/pages/contactus'>Contact Us</Link>
-                <Link href='#'>Home</Link>
+
+            <div className='flex flex-row gap-6 items-center text-white font-medium'>
+                <Link href='/' className="flex items-center gap-1 hover:text-yellow-300">
+                    <Home size={18} /> Home
+                </Link>
+                <Link href='/pages/about' className="flex items-center gap-1 hover:text-yellow-300">
+                    <Info size={18} /> About
+                </Link>
+                <Link href='/pages/contactus' className="flex items-center gap-1 hover:text-yellow-300">
+                    <Phone size={18} /> Contact Us
+                </Link>
+                <Link href='#' className="flex items-center gap-1 hover:text-yellow-300">
+                    <ScrollText size={18} /> Blog
+                </Link>
             </div>
-            <div className='flex flex-row gap-[10px]'>
-                <input type="text" placeholder="Search" className="input input-bordered w-24 md:w-auto" />
-                {/* profile */}
+
+            <div className='flex flex-row items-center gap-4'>
+                <div className="relative">
+                    <input type="text" placeholder="Search" className="input input-bordered w-28 md:w-48 pl-10" />
+                    <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
+                </div>
+
                 <div className="dropdown dropdown-end">
                     <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                         <div className="w-10 rounded-full">
@@ -29,15 +47,27 @@ const Navbar = () => {
                     </div>
                     <ul
                         tabIndex={0}
-                        className="menu menu-sm dropdown-content bg-base-100 rounded-box z-1 mt-3 w-52 p-2 shadow">
-                        <li><Link href={`#`} className="justify-between">Profile</Link></li>
-                        <li><a>Settings</a></li>
-                        <li><a>Logout</a></li>
+                        className="menu menu-sm dropdown-content bg-base-100 text-gray-800 rounded-box z-10 mt-3 w-52 p-2 shadow">
+                        <li>
+                            <Link href="/pages/profile" className="flex items-center gap-2">
+                                <UserCircle size={18} /> Profile
+                            </Link>
+                        </li>
+                        <li>
+                            <a className="flex items-center gap-2">
+                                <Settings size={18} /> Settings
+                            </a>
+                        </li>
+                        <li>
+                            <a className="flex items-center gap-2 text-red-500 hover:text-red-700">
+                                <LogOut size={18} /> Logout
+                            </a>
+                        </li>
                     </ul>
                 </div>
             </div>
         </div>
-    )
-}
+    );
+};
 
-export default Navbar
+export default Navbar;
