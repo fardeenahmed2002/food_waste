@@ -4,6 +4,7 @@ import { Parkinsans } from 'next/font/google'
 const parkinsans = Parkinsans({
   subsets: ['latin'],
 });
+
 export default function Hero() {
   return (
     <div className="relative bg-cover bg-center h-[480px] w-full bg-[#334DDA]" >

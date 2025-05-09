@@ -1,7 +1,7 @@
 import "../globals.css";
 import Navbar from "./components/Navbar";
 import ChatWidget from "./components/ChatWidget";
-
+import ContextProvider from "../contextapi/ContextProvider";
 export const metadata = {
   title: "Food Waste Rescue",
   description: "Help reduce food waste and support local communities.",
@@ -14,9 +14,11 @@ export default function RootLayout({ children }) {
   return (
     <html lang="en">
       <body cz-shortcut-listen="true">
-        <Navbar />
-        <ChatWidget />
-        {children}
+        <ContextProvider>
+          <Navbar />
+          <ChatWidget />
+          {children}
+        </ContextProvider>
       </body>
     </html>
   );

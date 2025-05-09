@@ -11,7 +11,6 @@ import {
 } from "@chatscope/chat-ui-kit-react";
 const api = process.env.NEXT_PUBLIC_GEMINI_API
 const train = process.env.NEXT_PUBLIC_GEMINI_TRAIN
-console.log(api, train)
 const Chatbot = () => {
     const [messages, setMessages] = useState([
         {

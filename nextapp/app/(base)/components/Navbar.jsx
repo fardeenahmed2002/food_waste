@@ -1,10 +1,11 @@
 'use client';
-import React from 'react';
+import React, { useContext } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
-import { Home, Info, Phone, UserCircle, Search, Settings, LogOut, ScrollText } from 'lucide-react';
-
+import { Home, Info, Phone, UserCircle, Search, Settings, LogOut, ScrollText, LogIn } from 'lucide-react';
+import { Context } from '@/app/contextapi/ContextProvider';
 const Navbar = () => {
+    const { isloggedin } = useContext(Context)
     return (
         <div className="navbar bg-gradient-to-r from-blue-600 to-indigo-700 p-4 shadow-xl border-b border-blue-900 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-[100px]">
             <div className='flex flex-row gap-3 items-center'>
@@ -31,12 +32,11 @@ const Navbar = () => {
                 </Link>
             </div>
 
-            <div className='flex flex-row items-center gap-4'>
-                <div className="relative">
-                    <input type="text" placeholder="Search" className="input input-bordered w-28 md:w-48 pl-10" />
-                    <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
-                </div>
-
+            <div className="relative">
+                <input type="text" placeholder="Search" className="input input-bordered w-28 md:w-48 pl-10" />
+                <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
+            </div>
+            {isloggedin ? (<div className='flex flex-row items-center gap-4'>
                 <div className="dropdown dropdown-end">
                     <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
                         <div className="w-10 rounded-full">
@@ -65,7 +65,12 @@ const Navbar = () => {
                         </li>
                     </ul>
                 </div>
-            </div>
+            </div>) : (<button className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 transition-all shadow-md">
+                <Link href="/signin" className="flex items-center gap-2">
+                    <LogIn size={18} />
+                    <span className="font-medium">Login</span>
+                </Link>
+            </button>)}
         </div>
     );
 };
