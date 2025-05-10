@@ -48,7 +48,7 @@ export default function SignUpForm() {
                 headers: {
                     "Content-Type": "multipart/form-data"
                 }
-            });
+            })
             if (data.success) {
                 setIsloggedin(true);
                 await getuserdata();

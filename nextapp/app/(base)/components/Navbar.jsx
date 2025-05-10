@@ -1,11 +1,23 @@
 'use client';
 import React, { useContext } from 'react';
+import axios from 'axios';
 import Link from 'next/link';
 import Image from 'next/image';
 import { Home, Info, Phone, UserCircle, Search, Settings, LogOut, ScrollText, LogIn } from 'lucide-react';
 import { Context } from '@/app/contextapi/ContextProvider';
 const Navbar = () => {
-    const { isloggedin } = useContext(Context)
+    const { isloggedin, setUser, setIsloggedin, user } = useContext(Context)
+    const handlelogout = async () => {
+        try {
+            axios.defaults.withCredentials = true;
+            const { data } = await axios.post('http://localhost:3000/api/auth/logout');
+            if (data.success) {
+                setUser(false);
+                setIsloggedin(false);
+            }
+        } catch (error) {
+        }
+    }
     return (
         <div className="navbar bg-gradient-to-r from-blue-600 to-indigo-700 p-4 shadow-xl border-b border-blue-900 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-[100px]">
             <div className='flex flex-row gap-3 items-center'>
@@ -16,7 +28,6 @@ const Navbar = () => {
                     Food Waste Rescue
                 </h1>
             </div>
-
             <div className='flex flex-row gap-6 items-center text-white font-medium'>
                 <Link href='/' className="flex items-center gap-1 hover:text-yellow-300">
                     <Home size={18} /> Home
@@ -31,7 +42,6 @@ const Navbar = () => {
                     <ScrollText size={18} /> Blog
                 </Link>
             </div>
-
             <div className="relative">
                 <input type="text" placeholder="Search" className="input input-bordered w-28 md:w-48 pl-10" />
                 <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
@@ -39,11 +49,11 @@ const Navbar = () => {
             {isloggedin ? (<div className='flex flex-row items-center gap-4'>
                 <div className="dropdown dropdown-end">
                     <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
-                        <div className="w-10 rounded-full">
+                        {user && (<div className="w-10 rounded-full">
                             <img
                                 alt="profile img"
-                                src="https://img.daisyui.com/images/stock/photo-1534528741775-53994a69daeb.webp" />
-                        </div>
+                                src={user.image} />
+                        </div>)}
                     </div>
                     <ul
                         tabIndex={0}
@@ -59,14 +69,16 @@ const Navbar = () => {
                             </a>
                         </li>
                         <li>
-                            <a className="flex items-center gap-2 text-red-500 hover:text-red-700">
+                            <a
+                                className="flex items-center gap-2 text-red-500 hover:text-red-700"
+                                onClick={handlelogout}>
                                 <LogOut size={18} /> Logout
                             </a>
                         </li>
                     </ul>
                 </div>
             </div>) : (<button className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 transition-all shadow-md">
-                <Link href="/signin" className="flex items-center gap-2">
+                <Link href="/login" className="flex items-center gap-2">
                     <LogIn size={18} />
                     <span className="font-medium">Login</span>
                 </Link>

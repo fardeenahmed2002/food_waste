@@ -1,22 +1,25 @@
 "use client"
-import { FcGoogle } from "react-icons/fc";
 import axios from "axios";
 import Link from "next/link";
+import { motion } from 'framer-motion'
 import { useContext, useState } from "react";
 import { Context } from "@/app/contextapi/ContextProvider";
+import { useRouter } from "next/navigation";
+import Loader from "../Loader";
 export default function page() {
   const { getuserdata, setIsloggedin } = useContext(Context)
+  const [loading, setLoading] = useState(false)
   const [formdata, setFormdata] = useState({
     email: '',
     password: ''
   })
   const [error, setError] = useState('')
+  const navigate = useRouter()
   const handleChange = (e) => {
     setFormdata({
       ...formdata,
       [e.target.name]: e.target.value
     })
-
   }
   const handleSubmit = async (e) => {
     try {
@@ -30,16 +33,17 @@ export default function page() {
       const { data } = await axios.post('http://localhost:3000/api/auth/login',
         { email: formdata.email, password: formdata.password })
       if (data.success) {
+        setLoading(true)
         setIsloggedin(true)
         await getuserdata()
+        navigate.push("/")
       }
       else {
         setError(data.message)
       }
     } catch (error) {
-
+      console.log(error.message)
     }
-
   }
   return (
 
@@ -47,8 +51,13 @@ export default function page() {
       className="min-h-screen w-full bg-cover bg-center flex items-center justify-center relative"
       style={{ backgroundImage: "url('/loginbg.jpg')" }}
     >
+
       <div className="absolute inset-0 bg-black/30 backdrop-blur-sm z-0"></div>
-      <div className="relative z-10 w-[90%] max-w-md bg-white/10 backdrop-blur-md rounded-2xl p-8 shadow-xl text-white flex flex-col items-center">
+      <motion.div
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        transition={{ duration: 0.5 }}
+        className="relative z-10 w-[90%] max-w-md bg-white/10 backdrop-blur-md rounded-2xl p-8 shadow-xl text-white flex flex-col items-center">
         <div className="mb-6">
           <Link href={'/'}>
             <img
@@ -57,8 +66,16 @@ export default function page() {
               className="w-[70px] h-[70px] rounded-full mx-auto"
             />
           </Link>
-
         </div>
+        <h1 className="text-3xl font-extrabold text-center text-white mb-6">Welcome user</h1>
+        <motion.p
+          className="text-red-500 text-sm text-center mb-3 font-semibold"
+          initial={{ x: -10 }}
+          animate={{ x: [0, -10, 10, 0] }}
+          transition={{ yoyo: Infinity, duration: 0.2 }}
+        >
+          {error}
+          </motion.p>
         <form className="space-y-4 w-full" onSubmit={handleSubmit}>
           <div>
             <label className="block text-sm font-medium">Email</label>
@@ -87,27 +104,26 @@ export default function page() {
               Forgot Password?
             </a>
           </div>
-          <button
+          {loading ? (<button
+            type="submit"
+            className="w-full bg-white/20 text-white py-2 rounded-md hover:bg-white/30 transition"
+          >
+            <Loader />
+          </button>) : (<button
             type="submit"
             className="w-full bg-white/20 text-white py-2 rounded-md hover:bg-white/30 transition"
           >
             Sign in
-          </button>
+          </button>)}
         </form>
-        <div className="mt-6 text-center text-white/70">or continue with</div>
-        <div className="flex justify-center gap-4 mt-4">
-          <button className="bg-white/20 p-2 rounded-md hover:bg-white/30 flex items-center gap-2 text-white px-4">
-            <FcGoogle className="text-xl" />
-            Google
-          </button>
-        </div>
+
         <div className="mt-6 text-center text-sm text-white/70">
           Don’t have an account?{" "}
-          <a href="#" className="text-white underline">
+          <Link href="/signup" className="text-white underline">
             Register for free
-          </a>
+          </Link>
         </div>
-      </div>
+      </motion.div>
     </div>
   );
 }

@@ -31,7 +31,7 @@ const ContextProvider = ({ children }) => {
         getuserdata()
       }
     } catch (error) {
-      console.error("could not find authstatus:", error.message);
+      console.log(error.message)
     }
   }
   useEffect(() => {
@@ -42,7 +42,8 @@ const ContextProvider = ({ children }) => {
     isloggedin,
     loading,
     getuserdata,
-    setIsloggedin
+    setIsloggedin,
+    setUser
   }
   return (
     <Context.Provider value={value}>

@@ -1,10 +1,10 @@
-import { NextResponse } from "next/server.js";
-import { Usermodel } from "../Models/User.js";
+import { NextResponse } from "next/server.js"
+import { Usermodel } from "../Models/User.js"
 import bcrypt from 'bcryptjs'
-import transporter from "../Utils/nodemailer.js";
+import transporter from "../Utils/nodemailer.js"
 import jwt from "jsonwebtoken"
-export const signup = async (req) => {
-    const { name, email, password, contactNumber, address, noOfTeamMember, role, yourCollectingArea, ngoRegistrationNumber, collectorType } = await req.json()
+export const signup = async (formData) => {
+    const { name, email, password, contactNumber, address, noOfTeamMember, role, yourCollectingArea, ngoRegistrationNumber, collectorType, image = '' } = formData
     try {
         if (!name || !email || !password || !role || !contactNumber) {
             return NextResponse.json({
@@ -40,6 +40,7 @@ export const signup = async (req) => {
                 isNgo: false,
                 isDonor: false,
                 role: `user`,
+                image
             })
         }
         else if (role === `donor`) {
@@ -140,28 +141,46 @@ export const login = async (req) => {
             })
         }
         const token = jwt.sign({ id: user._id }, process.env.JWT_SECRET, { expiresIn: `7d` })
-
         const response = NextResponse.json({
             message: `Login successful`,
             success: true,
             user,
             token
-        });
-
+        })
         response.cookies.set("token", token, {
             httpOnly: true,
             secure: process.env.NODE_ENV === "production",
             sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
             maxAge: 7 * 24 * 60 * 60,
             path: "/",
-        });
-
+        })
         return response;
     } catch (error) {
         console.log(error.message)
     }
 
 }
+
+export const logout = async () => {
+    try {
+        const response = NextResponse.json({
+            success: true,
+            message: "Logout successful",
+        })
+        response.cookies.set("token", "", {
+            httpOnly: true,
+            secure: process.env.NODE_ENV === "production",
+            sameSite: process.env.NODE_ENV === "production" ? "none" : "strict",
+            expires: new Date(0),
+            path: "/",
+        })
+
+        return response;
+    } catch (error) {
+        console.log(error.message)
+    }
+};
+
 export const isLoggedIn = async (req) => {
     try {
         return NextResponse.json({
@@ -169,9 +188,6 @@ export const isLoggedIn = async (req) => {
             message: `account authticated`
         })
     } catch (error) {
-        NextResponse.json({
-            success: false,
-            message: error.message
-        })
+        console.log(error.message)
     }
 }
