@@ -4,11 +4,11 @@ import bcrypt from 'bcryptjs'
 import transporter from "../Utils/nodemailer.js"
 import jwt from "jsonwebtoken"
 export const signup = async (formData) => {
-    const { name, email, password, contactNumber, address, noOfTeamMember, role, yourCollectingArea, ngoRegistrationNumber, collectorType, image = '' } = formData
+    const { name, email, password, contactNumber, address, noOfTeamMember, role, yourCollectingArea, ngoRegistrationNumber, collectorType, image = '', donorof } = formData
     try {
         if (!name || !email || !password || !role || !contactNumber) {
             return NextResponse.json({
-                message: `did not got data properly`,
+                message: `did not get data properly`,
                 success: false
             })
         }
@@ -36,25 +36,27 @@ export const signup = async (formData) => {
                 contactNumber,
                 address,
                 isUser: true,
-                isAdmin: false,
-                isNgo: false,
-                isDonor: false,
                 role: `user`,
                 image
             })
         }
         else if (role === `donor`) {
+            if (!donorof) {
+                return NextResponse.json({
+                    message: `did not get data properly`,
+                    success: false
+                })
+            }
             user = new Usermodel({
                 name,
                 email,
                 password: hashedpassword,
                 contactNumber,
                 address,
-                isUser: true,
-                isAdmin: false,
-                isNgo: false,
-                isDonor: false,
+                isDonor: true,
                 role: `donor`,
+                image,
+                donorof
             })
         }
         else if (role === `collector`) {
@@ -64,11 +66,9 @@ export const signup = async (formData) => {
                 password: hashedpassword,
                 contactNumber,
                 address,
-                isUser: true,
-                isAdmin: false,
-                isNgo: false,
-                isDonor: false,
+                isCollector: true,
                 role: `collector`,
+                image
             })
         }
         else {

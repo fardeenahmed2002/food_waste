@@ -19,7 +19,7 @@ const Navbar = () => {
         }
     }
     return (
-        <div className="navbar bg-gradient-to-r from-blue-600 to-indigo-700 p-4 shadow-xl border-b border-blue-900 flex flex-col md:flex-row items-center justify-between gap-4 md:gap-[100px]">
+        <div className="navbar justify-between px-[50px] bg-gradient-to-r from-blue-600 to-indigo-700 p-4 shadow-xl border-b border-blue-900 flex flex-col md:flex-row items-center gap-4 md:gap-[100px]">
             <div className='flex flex-row gap-3 items-center'>
                 <Link href={`/`}>
                     <Image src="/logo.jpeg" alt="logo" width={50} height={50} className='rounded-full' />
@@ -42,10 +42,7 @@ const Navbar = () => {
                     <ScrollText size={18} /> Blog
                 </Link>
             </div>
-            <div className="relative">
-                <input type="text" placeholder="Search" className="input input-bordered w-28 md:w-48 pl-10" />
-                <Search className="absolute left-3 top-2.5 text-gray-400" size={18} />
-            </div>
+
             {isloggedin ? (<div className='flex flex-row items-center gap-4'>
                 <div className="dropdown dropdown-end">
                     <div tabIndex={0} role="button" className="btn btn-ghost btn-circle avatar">
@@ -77,12 +74,19 @@ const Navbar = () => {
                         </li>
                     </ul>
                 </div>
-            </div>) : (<button className="flex items-center gap-2 bg-blue-600 text-white px-4 py-2 rounded-xl hover:bg-blue-700 transition-all shadow-md">
-                <Link href="/login" className="flex items-center gap-2">
-                    <LogIn size={18} />
-                    <span className="font-medium">Login</span>
-                </Link>
-            </button>)}
+            </div>) : (
+                <div className='flex flex-row items-center gap-3 border-white border-2 h-[45px] px-4 text-white rounded-xl shadow-md bg-transparent'>
+                    <Link href="/login" className="flex items-center gap-2 hover:text-yellow-300 transition-colors">
+                        <LogIn size={18} />
+                        <span className="font-medium">Login</span>
+                    </Link>
+                    <span className="w-[1px] h-[20px] bg-white"></span>
+                    <Link href="/signup" className="flex items-center gap-2 hover:text-yellow-300 transition-colors">
+                        <UserCircle size={18} />
+                        <span className="font-medium">Signup</span>
+                    </Link>
+                </div>
+            )}
         </div>
     );
 };

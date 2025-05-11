@@ -18,42 +18,7 @@ export default function Donorsignup() {
     const navigate = useNavigate()
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
-    useEffect(() => {
-        const loadGoogleMaps = () => {
-            const script = document.createElement("script");
-            script.src = `https://maps.gomaps.pro/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&libraries=places`;
-            script.async = true;
-            script.onload = () => {
-                if (navigator.geolocation) {
-                    navigator.geolocation.getCurrentPosition(
-                        async (position) => {
-                            const { latitude, longitude } = position.coords;
-                            const userLocation = { lat: latitude, lng: longitude };
-                            const geocoder = new window.google.maps.Geocoder();
-                            geocoder.geocode({ location: userLocation }, (results, status) => {
-                                if (status === window.google.maps.GeocoderStatus.OK && results[0]) {
-                                    const address = results[0].formatted_address;
-                                    setFormData((prevData) => ({
-                                        ...prevData,
-                                        address: address,
-                                    }));
-                                }
-                            });
-                        },
-                        (error) => {
-                            toast.error("Geolocation failed: " + error.message);
-                        }
-                    );
-                } else {
-                    toast.error("Geolocation is not supported by this browser.");
-                }
-            };
-            document.head.appendChild(script);
-        };
-
-        loadGoogleMaps();
-    }, []);
+    }
     const handleSubmit = async (e) => {
         try {
             e.preventDefault();
@@ -122,7 +87,6 @@ export default function Donorsignup() {
                                 autoComplete="off"
                             />
                         </div>
-                        
                         <div>
                             <label className="block text-gray-600 font-semibold">Email Address</label>
                             <input
@@ -159,7 +123,7 @@ export default function Donorsignup() {
                                 autoComplete="off"
                             />
                         </div>
-                        <div>
+                        <div >
                             <label className="block text-gray-600 font-semibold">Address</label>
                             <input
                                 type="text"
