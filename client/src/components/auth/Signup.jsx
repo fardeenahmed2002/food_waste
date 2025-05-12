@@ -5,7 +5,6 @@ import axios from "axios";
 import { Appcontent } from "../contextapi/Appcontext";
 import { toast, ToastContainer } from 'react-toastify';
 import "react-toastify/dist/ReactToastify.css";
-
 export default function SignUpForm() {
     const [formData, setFormData] = useState({
         name: "",

@@ -1,8 +1,8 @@
-import React, { useContext, useState,useEffect } from "react";
-import { motion } from "framer-motion";
-import { Link, useNavigate } from "react-router-dom";
-import axios from "axios";
-import { Appcontent } from "../contextapi/Appcontext";
+import { useContext, useState } from "react"
+import { motion } from "framer-motion"
+import { Link, useNavigate } from "react-router-dom"
+import axios from "axios"
+import { Appcontent } from "../contextapi/Appcontext"
 
 export default function Ngosignup() {
     const [formData, setFormData] = useState({
@@ -22,44 +22,7 @@ export default function Ngosignup() {
     const navigate = useNavigate()
     const handleChange = (e) => {
         setFormData({ ...formData, [e.target.name]: e.target.value });
-    };
-     useEffect(() => {
-            const loadGoogleMaps = () => {
-                const script = document.createElement("script");
-                script.src = `https://maps.gomaps.pro/maps/api/js?key=${import.meta.env.VITE_GOOGLE_MAPS_API_KEY}&libraries=places`;
-                script.async = true;
-                script.onload = () => {
-
-                    if (navigator.geolocation) {
-                        navigator.geolocation.getCurrentPosition(
-                            async (position) => {
-                                const { latitude, longitude } = position.coords;
-                                const userLocation = { lat: latitude, lng: longitude };
-    
-                                const geocoder = new window.google.maps.Geocoder();
-                                geocoder.geocode({ location: userLocation }, (results, status) => {
-                                    if (status === window.google.maps.GeocoderStatus.OK && results[0]) {
-                                        const address = results[0].formatted_address;
-                                        setFormData((prevData) => ({
-                                            ...prevData,
-                                            address: address,
-                                        }));
-                                    }
-                                });
-                            },
-                            (error) => {
-                                toast.error("Geolocation failed: " + error.message);
-                            }
-                        );
-                    } else {
-                        toast.error("Geolocation is not supported by this browser.");
-                    }
-                };
-                document.head.appendChild(script);
-            };
-    
-            loadGoogleMaps();
-        }, []);
+    }
     const handleSubmit = async (e) => {
         try {
             e.preventDefault();

@@ -4,7 +4,7 @@ import path from 'path';
 import { Canvas, Image, ImageData } from 'canvas';
 import { loadImage } from 'canvas';
 import * as faceapi from 'face-api.js';
-import * as tf from '@tensorflow/tfjs';
+// import * as tf from '@tensorflow/tfjs';
 
 faceapi.env.monkeyPatch({ Canvas, Image, ImageData });
 
@@ -17,7 +17,7 @@ const loadModels = async () => {
   }
 };
 
-export const uploadImage = async (formData, fieldName, defaultPath) => {
+export const uploadProfileImage = async (formData, fieldName, defaultPath) => {
   const file = formData.get(fieldName);
   let filename = '';
   const defaultImgPath = defaultPath;
@@ -43,8 +43,22 @@ export const uploadImage = async (formData, fieldName, defaultPath) => {
   }
 
   return filename ? `/uploads/${filename}` : defaultImgPath;
-};
+}
+export const uploadCertificateImage = async (formData, fieldName, defaultPath) => {
+  const file = formData.get(fieldName);
+  let filename = '';
+  const defaultImgPath = defaultPath
 
+  if (file && file.name) {
+    const buffer = Buffer.from(await file.arrayBuffer());
+    filename = Date.now() + '-' + file.name.replace(/\s+/g, '');
+    const uploadDir = path.join(process.cwd(), 'public', 'certificate');
+    fs.mkdirSync(uploadDir, { recursive: true });
+    const filepath = path.join(uploadDir, filename);
+    fs.writeFileSync(filepath, buffer);
+  }
+  return filename ? `/uploads/${filename}` : defaultImgPath;
+}
 
 export const ImageofFood = async (formData, fieldName, defaultPath) => {
   const file = formData.get(fieldName);
@@ -60,4 +74,4 @@ export const ImageofFood = async (formData, fieldName, defaultPath) => {
     fs.writeFileSync(filepath, buffer);
   }
   return filename ? `/uploads/${filename}` : defaultImgPath;
-};
+}
