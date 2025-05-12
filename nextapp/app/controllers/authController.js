@@ -106,10 +106,13 @@ export const signup = async (formData) => {
         return response;
     }
     catch (error) {
-        console.log(error.message)
+        return NextResponse.json({ success: false, message: error.message });
     }
-
 }
+
+
+
+
 export const login = async (req) => {
     const { email, password } = await req.json()
     try {
@@ -156,7 +159,10 @@ export const login = async (req) => {
         })
         return response;
     } catch (error) {
-        console.log(error.message)
+        return NextResponse.json({
+            success: false,
+            message: error.message,
+        }, { status: 400 });
     }
 
 }

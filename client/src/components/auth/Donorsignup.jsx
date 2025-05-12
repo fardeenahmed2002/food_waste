@@ -29,7 +29,7 @@ export default function Donorsignup() {
             setError("")
             console.log(formData)
             axios.defaults.withCredentials = true
-            const { data } = await axios.post('http://localhost:3000/api/auth/register', { email: formData.email, password: formData.password, name: formData.name, phone: formData.phone, role: formData.role, roletype: formData.roletype })
+            const { data } = await axios.post('/api/auth/register', { email: formData.email, password: formData.password, name: formData.name, phone: formData.phone, role: formData.role, roletype: formData.roletype })
             if (data.success) {
                 setIsloggedin(true)
                 await getuserdata()
