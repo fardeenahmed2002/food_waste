@@ -59,11 +59,12 @@ export default function Page() {
       form.append("contactNumber", formdata.contactNumber)
       form.append("role", formdata.role)
       form.append("certificateimage", certificateimage)
-      form.append("collectorType", collectorType)
-      form.append("noOfTeamMember", noOfTeamMember)
-      form.append("yourCollectingArea", yourCollectingArea)
-      form.append("ngoRegistrationNumber", ngoRegistrationNumber)
       form.append("avatar", avatar)
+      form.append("collectorType", formdata.collectorType)
+      form.append("noOfTeamMember", formdata.noOfTeamMember)
+      form.append("yourCollectingArea", formdata.yourCollectingArea)
+      form.append("ngoRegistrationNumber", formdata.ngoRegistrationNumber)
+
       axios.defaults.withCredentials = true;
       const { data } = await axios.post("http://localhost:3000/api/auth/signup", form, {
         headers: {

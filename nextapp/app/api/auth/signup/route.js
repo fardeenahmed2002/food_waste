@@ -1,6 +1,6 @@
 import { signup } from "@/app/controllers/authController"
 import connectToDB from "@/app/Utils/database"
-import { uploadProfileImage } from "@/app/Utils/uploadimage"
+import { uploadCertificateImage, uploadProfileImage } from "@/app/Utils/uploadimage"
 import { NextResponse } from "next/server"
 export const POST = async (req) => {
   await connectToDB();
@@ -13,7 +13,8 @@ export const POST = async (req) => {
     const contactNumber = formData.get('contactNumber')
     const address = formData.get('address')
     const role = formData.get('role')
-    const imageResult = await uploadProfileImage(formData, 'avatar', '/uploads/person.png')
+    const imageResult = await uploadProfileImage(formData, 'avatar', '')
+    const certificateimage = await uploadCertificateImage(formData, 'certificateimage', '')
     if (typeof imageResult === 'object' && imageResult.success === false) {
       return NextResponse.json({
         success: false,
@@ -28,7 +29,8 @@ export const POST = async (req) => {
       contactNumber,
       address,
       role,
-      image
+      image,
+      certificateimage
     });
     return result;
   } catch (error) {

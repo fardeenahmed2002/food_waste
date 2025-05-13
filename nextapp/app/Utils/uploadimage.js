@@ -17,10 +17,9 @@ const loadModels = async () => {
   }
 };
 
-export const uploadProfileImage = async (formData, fieldName, defaultPath) => {
+export const uploadProfileImage = async (formData, fieldName) => {
   const file = formData.get(fieldName);
   let filename = '';
-  const defaultImgPath = defaultPath;
 
   if (file && file.name) {
     const buffer = Buffer.from(await file.arrayBuffer());
@@ -42,7 +41,7 @@ export const uploadProfileImage = async (formData, fieldName, defaultPath) => {
     }
   }
 
-  return filename ? `/uploads/${filename}` : defaultImgPath;
+  return filename ? `/uploads/${filename}` : '';
 }
 export const uploadCertificateImage = async (formData, fieldName, defaultPath) => {
   const file = formData.get(fieldName);
@@ -52,7 +51,7 @@ export const uploadCertificateImage = async (formData, fieldName, defaultPath) =
   if (file && file.name) {
     const buffer = Buffer.from(await file.arrayBuffer());
     filename = Date.now() + '-' + file.name.replace(/\s+/g, '');
-    const uploadDir = path.join(process.cwd(), 'public', 'certificate');
+    const uploadDir = path.join(process.cwd(), 'public', 'certificate')
     fs.mkdirSync(uploadDir, { recursive: true });
     const filepath = path.join(uploadDir, filename);
     fs.writeFileSync(filepath, buffer);
